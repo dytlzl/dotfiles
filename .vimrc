@@ -78,3 +78,8 @@ set clipboard=unnamed,autoselect
 " Golang
 au FileType go setlocal sw=4 ts=4 sts=4 noet
 
+" Makefile
+let _curfile=expand("%:r")
+if _curfile == 'Makefile'
+  set noexpandtab
+endif
