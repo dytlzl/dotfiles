@@ -53,7 +53,7 @@ set list
 set listchars=tab:>-,extends:<,trail:-
 set laststatus=2
 highlight SpecialKey ctermfg=92
-highlight LineNr ctermfg=240
+" highlight LineNr ctermfg=240
 
 set autoindent
 set expandtab

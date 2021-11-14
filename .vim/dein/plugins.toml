@@ -1,16 +1,36 @@
 [[plugins]]
-repo = 'Shougo/deoplete.nvim'
-on_i = 1
-hook_add = '''
-  let g:deoplete#enable_at_startup = 1
-  set completeopt+=noinsert
-'''
+repo = 'neoclide/coc.nvim'
+merged = 0
+rev = 'master'
+build = 'yarn install --frozen-lockfile'
+
 
 [[plugins]]
 repo = 'rust-lang/rust.vim'
 on_ft = 'rust'
 hook_add = '''
   let g:rustfmt_autosave = 1
+'''
+
+[[plugins]]
+repo = 'vim-airline/vim-airline'
+
+[[plugins]]
+repo = 'vim-airline/vim-airline-themes'
+hook_add = '''
+  let g:airline_theme='violet'
+'''
+
+[[plugins]]
+repo = 'Rigellute/shades-of-purple.vim'
+hook_add = '''
+  colorscheme shades_of_purple
+'''
+
+[[plugins]]
+repo = 'Xuyuanp/nerdtree-git-plugin'
+hook_add = '''
+  let g:NERDTreeGitStatusUseNerdFonts = 1
 '''
 
 [[plugins]]
@@ -26,30 +46,6 @@ hook_add = '''
   let g:go_highlight_operators = 1
   let g:go_highlight_extra_types = 1
   let g:go_highlight_build_constraints = 1
-'''
-
-[[plugins]]
-repo = 'autozimu/LanguageClient-neovim'
-build = 'bash install.sh'
-rev = 'next'
-hook_add = '''
-  set hidden
-  let g:LanguageClient_serverCommands = {
-      \ 'go': ['gopls']
-      \ }
-  let g:LanguageClient_loadSettings = 1
-  nnoremap <silent> K :call LanguageClient#textDocument_hover()<CR>
-  nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-'''
-
-[[plugins]]
-repo = 'sebastianmarkow/deoplete-rust'
-on_ft = 'rust'
-on_i = 1
-hook_add = '''
-  let g:deoplete#sources#rust#racer_binary=$HOME."/.cargo/bin/racer"
-  let g:deoplete#sources#rust#rust_source_path=$HOME."/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src"
-  let $RUST_SRC_PATH='/Users/dyzl/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src'
 '''
 
 [[plugins]]
