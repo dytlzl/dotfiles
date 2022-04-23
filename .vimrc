@@ -1,29 +1,73 @@
 if &compatible
   set nocompatible
 endif
-" Add the dein installation directory into runtimepath
 
-set runtimepath+=~/.vim/dein/repos/github.com/Shougo/dein.vim
-
-if dein#load_state('~/.vim/dein')
-  call dein#begin('~/.vim/dein')
-
- 
-  call dein#add('~/.vim/dein/repos/github.com/Shougo/dein.vim')
-
-
-  call dein#load_toml('~/.vim/dein/plugins.toml', {'lazy': 0})
-  if !has('nvim')
-    call dein#add('roxma/nvim-yarp')
-    call dein#add('roxma/vim-hug-neovim-rpc')
+" vim-jetpack
+call jetpack#begin()
+Jetpack 'junegunn/fzf.vim'
+Jetpack 'junegunn/fzf', { 'do': {-> fzf#install()} }
+Jetpack 'neoclide/coc.nvim', { 'branch': 'release' }
+Jetpack 'vlime/vlime', { 'rtp': 'vim' }
+Jetpack 'dracula/vim', { 'as': 'dracula' }
+Jetpack 'scrooloose/nerdtree'
+Jetpack 'Xuyuanp/nerdtree-git-plugin'
+Jetpack 'airblade/vim-gitgutter'
+Jetpack 'tpope/vim-fugitive'
+Jetpack 'fatih/vim-go', { 'for': 'go' }
+Jetpack 'rust-lang/rust.vim', { 'for': 'rust' }
+Jetpack 'vim-airline/vim-airline'
+Jetpack 'vim-airline/vim-airline-themes'
+Jetpack 'ryanoasis/vim-devicons'
+for name in jetpack#names()
+  if !jetpack#tap(name)
+    call jetpack#sync()
+    break
   endif
-  call dein#end()
-  call dein#save_state()
-endif
+endfor
+call jetpack#end()
 
-if dein#check_install()
-  call dein#install()
-endif
+" airline
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme='violet'
+
+" coc.nvim
+let g:coc_global_extensions = [
+  \'coc-go',
+  \'coc-rust-analyzer',
+  \'coc-pyright',
+  \'coc-json',
+  \'coc-markdownlint', 
+  \'coc-yaml'
+\]
+
+" rust-lang
+let g:rustfmt_autosave = 1
+
+" vim-go
+let g:go_fmt_command = "goimports"
+let g:go_def_mapping_enabled = 0
+let g:go_doc_keywordprg_enabled = 0
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_build_constraints = 1
+
+" NERDTree
+map <C-n> :NERDTreeToggle<CR>
+let g:NERDTreeChDirMode = 2
+let g:NERDTreeGitStatusUseNerdFonts = 1
+
+" gitgutter
+let g:gitgutter_override_sign_column_highlight = 0
+highlight SignColumn ctermbg=none
+highlight GitGutterAdd ctermfg=green
+highlight GitGutterChange ctermfg=blue
+highlight GitGutterDelete ctermfg=red
+highlight GitGutterChangeDelete ctermfg=blue
 
 
 " *******************************************************
@@ -33,6 +77,8 @@ endif
 set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=utf-8,euc-jp,shift_jis
+
+set updatetime=300
 
 " Search
 set hlsearch
@@ -53,7 +99,8 @@ set list
 set listchars=tab:>-,extends:<,trail:-
 set laststatus=2
 highlight SpecialKey ctermfg=92
-" highlight LineNr ctermfg=240
+highlight LineNr ctermfg=92
+highlight VertSplit cterm=none
 
 set autoindent
 set expandtab
@@ -72,8 +119,7 @@ set backspace=indent,eol,start
 set title
 
 " Copy/Paste/Cut
-set clipboard=unnamed,autoselect
-
+set clipboard=unnamed
 
 " Golang
 au FileType go setlocal sw=4 ts=4 sts=4 noet

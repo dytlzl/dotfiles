@@ -1,7 +1,6 @@
 install:
-	cp -r ./.vimrc ~
-	mkdir -p ~/.vim/dein
-	cp ./.vim/dein/plugins.toml ~/.vim/dein
-	curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > installer.sh
-	sh ./installer.sh ~/.vim/dein
-	vim -c 'call dein#install()'
+	cp ./.vimrc ~
+	curl -fLo ~/.vim/autoload/jetpack.vim --create-dirs https://raw.githubusercontent.com/tani/vim-jetpack/master/autoload/jetpack.vim
+
+clean:
+	rm -rf ~/.vim ~/.vimrc
