@@ -3,6 +3,11 @@ if &compatible
 endif
 
 " vim-jetpack
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/jetpack.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/jetpack.vim --create-dirs  https://raw.githubusercontent.com/tani/vim-jetpack/master/autoload/jetpack.vim'
+  autocmd VimEnter * JetpackSync | source $MYVIMRC
+endif
 call jetpack#begin()
 Jetpack 'junegunn/fzf.vim'
 Jetpack 'junegunn/fzf', { 'do': {-> fzf#install()} }
