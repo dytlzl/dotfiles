@@ -22,6 +22,7 @@ Jetpack 'fatih/vim-go', { 'for': 'go' }
 Jetpack 'rust-lang/rust.vim', { 'for': 'rust' }
 Jetpack 'vim-airline/vim-airline'
 Jetpack 'vim-airline/vim-airline-themes'
+Jetpack 'liuchengxu/space-vim-dark'
 Jetpack 'ryanoasis/vim-devicons'
 for name in jetpack#names()
   if !jetpack#tap(name)
@@ -73,6 +74,9 @@ highlight GitGutterAdd ctermfg=green
 highlight GitGutterChange ctermfg=blue
 highlight GitGutterDelete ctermfg=red
 highlight GitGutterChangeDelete ctermfg=blue
+
+" space-vim-dark
+colorscheme space-vim-dark
 
 
 " *******************************************************
