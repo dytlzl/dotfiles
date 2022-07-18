@@ -1,5 +1,5 @@
 install:
-	cp ./vimrc ~
+	cp ./vimrc ~/.vimrc
 
 diff:
 	@diff ~/.vimrc ./vimrc || :
