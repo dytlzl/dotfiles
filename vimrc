@@ -140,7 +140,5 @@ au FileType go setlocal sw=4 ts=4 sts=4 noet
 au FileType python setlocal sw=4 ts=4 sts=4 et
 
 " Makefile
-let _curfile=expand("%:r")
-if _curfile == 'Makefile'
-  setlocal sw=4 ts=4 sts=4 noet
-endif
+au FileType make setlocal sw=4 ts=4 sts=4 noet
+
