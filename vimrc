@@ -142,6 +142,7 @@ set title
 
 " Copy/Paste/Cut
 set clipboard&
+set clipboard^=unnamed
 set clipboard^=unnamedplus
 
 " Golang
