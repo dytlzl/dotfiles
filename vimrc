@@ -46,6 +46,12 @@ let g:coc_global_extensions = [
   \'coc-markdownlint', 
   \'coc-yaml'
 \]
+nmap <silent> <space><space> :<C-u>CocList<cr>
+nmap <silent> <space>h :<C-u>call CocAction('doHover')<cr>
+nmap <silent> <space>d <Plug>(coc-definition)
+nmap <silent> <space>rf <Plug>(coc-references)
+nmap <silent> <space>rn <Plug>(coc-rename)
+nmap <silent> <space>fmt <Plug>(coc-format)
 
 " rust-lang
 let g:rustfmt_autosave = 1
@@ -76,10 +82,14 @@ highlight GitGutterDelete ctermfg=red
 highlight GitGutterChangeDelete ctermfg=blue
 
 " space-vim-dark
-colorscheme space-vim-dark
+" colorscheme space-vim-dark
+
+" dracula
+colorscheme dracula
 
 " fzf.vim
-map <C-f> :Rg<CR>
+map <C-f> :Files<CR>
+map <C-r><C-g> :Rg<CR>
 map <C-g> :GFiles?<CR>
 
 " *******************************************************
@@ -131,7 +141,8 @@ set backspace=indent,eol,start
 set title
 
 " Copy/Paste/Cut
-set clipboard=unnamed
+set clipboard&
+set clipboard^=unnamedplus
 
 " Golang
 au FileType go setlocal sw=4 ts=4 sts=4 noet
@@ -142,3 +153,4 @@ au FileType python setlocal sw=4 ts=4 sts=4 et
 " Makefile
 au FileType make setlocal sw=4 ts=4 sts=4 noet
 
+map <C-@> :bo term ++rows=20<CR>
