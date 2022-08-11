@@ -33,6 +33,7 @@ install() {
     cp $target $dest
   done
   echo "Finished."
+  exec -l $SHELL
 }
 
 showdiff() {

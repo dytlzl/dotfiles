@@ -7,11 +7,11 @@ export BAT_THEME="Dracula"
 bind -x '"\t": fzf_bash_completion'
 
 _fzf_ghq_list() {
-  local path=$(ghq list -p | fzf --reverse --preview 'batcat --color=always {}/README.md')
+  local path=$(ghq list | fzf --reverse --preview 'batcat --color=always '$HOME'/ghq/{}/README.md')
   if [[ -z $path ]]; then
     return 1
   fi
-  READLINE_LINE="cd $path"
+  READLINE_LINE="cd $HOME/ghq/$path"
   READLINE_POINT=${#READLINE_LINE}
 }
 
@@ -95,8 +95,7 @@ _parse_git_branch() {
   [[ -n $branch ]] && echo -e "on \033[38;5;200m$branch"
 }
 
-PS1='\[\033[38;5;141m\]\w\[\033[0m\] $(_parse_git_branch)\n\[\033[38;5;141m\]\\$\[\033[0m\] '
+PS1='\[\033[38;5;226m\] \[\033[38;5;213m\] \[\033[38;5;39m\] \[\033[38;5;141m\]\w\[\033[0m\] $(_parse_git_branch)\n\[\033[38;5;141m\]\\$\[\033[0m\] '
 
 alias mk='bash ./__ignore.mk.sh'
 alias vimk='vi ./__ignore.mk.sh'
-
