@@ -23,10 +23,12 @@ _fzf_find() {
   if [[ -z $path ]]; then
     return 0
   fi
-  vi $path
+  READLINE_LINE="vi $path"
+  READLINE_POINT=${#READLINE_LINE}
 }
 
-bind -x '"\C-f": _fzf_find'
+bind -x '"\202": _fzf_find'
+bind '"\C-f": "\202\C-m"'
 
 _fzf_history() {
   READLINE_LINE=$(HISTTIMEFORMAT='' history | sort -k1,1nr | sed -e 's/^[[:space:]]*[0-9]\+[[:space:]]*//' | awk '!x[$0]++' | fzf --height '30%' --reverse --query "$READLINE_LINE")
@@ -95,7 +97,8 @@ _parse_git_branch() {
   [[ -n $branch ]] && echo -e "on \033[38;5;200m$branch"
 }
 
-PS1='\[\033[38;5;226m\] \[\033[38;5;213m\] \[\033[38;5;39m\] \[\033[38;5;141m\]\w\[\033[0m\] $(_parse_git_branch)\n\[\033[38;5;141m\]\\$\[\033[0m\] '
+PS1="\$(if [ \$? == 0 ]; then echo '\[\033[38;5;226m\] \[\033[38;5;196m\] \[\033[38;5;39m\] \[\033[38;5;118m\] '; else echo '\[\033[38;5;196m\]    '; fi)"
+PS1+='\[\033[38;5;141m\]\w\[\033[0m\] $(_parse_git_branch)\n\[\033[38;5;141m\]\$\[\033[0m\] '
 
 alias mk='bash ./__ignore.mk.sh'
 alias vimk='vi ./__ignore.mk.sh'
