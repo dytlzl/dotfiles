@@ -19,7 +19,8 @@ install() {
     return 0
   fi
   echo "$diff_to_apply"
-  echo -n "Are you sure you want to apply the changes above? (y/n): "
+  echo
+  echo -n "Are you sure you want to apply the above changes? (y/n): "
   local response
   read response
   if [[ $response != "y" ]]; then
