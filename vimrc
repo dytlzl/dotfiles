@@ -43,7 +43,7 @@ let g:coc_global_extensions = [
   \'coc-rust-analyzer',
   \'coc-pyright',
   \'coc-json',
-  \'coc-markdownlint', 
+  \'coc-markdownlint',
   \'coc-yaml'
 \]
 nmap <silent> <space><space> :<C-u>CocList<cr>
@@ -123,6 +123,7 @@ set laststatus=2
 highlight SpecialKey ctermfg=239
 highlight LineNr ctermfg=239
 highlight VertSplit cterm=none
+highlight Normal guibg=NONE ctermbg=NONE
 
 set autoindent
 set expandtab
@@ -142,8 +143,7 @@ set title
 
 " Copy/Paste/Cut
 set clipboard&
-set clipboard^=unnamed
-set clipboard^=unnamedplus
+set clipboard^=unnamed,unnamedplus
 
 " Golang
 au FileType go setlocal sw=4 ts=4 sts=4 noet
