@@ -19,7 +19,13 @@ bind -x '"\201": _fzf_ghq_list'
 bind '"\C-g": "\201\C-m"'
 
 _fzf_find() {
-  local path=$(find * -type f -not -path '*/\.git/*' | fzf --reverse --preview 'batcat --color=always {}')
+  local list
+  if git rev-parse >/dev/null 2>&1; then
+    list=$(git ls-files; git ls-files --others --exclude-standard)
+  else
+    list=$(find * -type f)
+  fi
+  local path=$(echo "$list" | fzf --reverse --preview 'batcat --color=always {}')
   if [[ -z $path ]]; then
     return 0
   fi
@@ -68,7 +74,7 @@ gd() {
     echo "No differences."
     return 0
   fi
-  local filename=$(echo -e "$files" | fzf --reverse --preview-window down,70% --height 30% \
+  local filename=$(echo -e "$files" | fzf --reverse --preview-window down,70% \
     --preview 'git diff --no-prefix -U1000 '$target_branch' -- {} | delta -w ${FZF_PREVIEW_COLUMNS:-$COLUMNS}')
   if [[ -z $filename ]]; then
     echo "No item selected."
@@ -78,7 +84,7 @@ gd() {
 }
 
 _complete_gd() {
-  if ! git status >/dev/null 2>&1; then
+  if ! git rev-parse >/dev/null 2>&1; then
     return 0
   fi
   COMPREPLY=(HEAD HEAD^)
