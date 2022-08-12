@@ -69,9 +69,7 @@ gd() {
     return 0
   fi
   local filename=$(echo -e "$files" | fzf --reverse --preview-window down,70% --height 30% \
-    --preview 'git diff --no-prefix -U1000 '$target_branch' -- {} | delta -w ${FZF_PREVIEW_COLUMNS:-$COLUMNS}' \
-    --bind 'enter:execute(less {})')
-    # --bind 'enter:execute(bash -c "git diff --no-prefix -U1000 '$target_branch' -- {} | delta")')
+    --preview 'git diff --no-prefix -U1000 '$target_branch' -- {} | delta -w ${FZF_PREVIEW_COLUMNS:-$COLUMNS}'
   if [[ -z $filename ]]; then
     echo "No item selected."
     return 0
