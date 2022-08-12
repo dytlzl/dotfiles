@@ -60,19 +60,23 @@ __fzf_ripgrep() {
 bind -x '"\C-?\C-r\C-g": _fzf_rg'
 
 gd() {
-  if ! files=$(git diff $1 --name-only); then
+  local target_branch=$1
+  if ! files=$(git diff $target_branch --name-only); then
     return 1
   fi
   if [[ -z $files ]]; then
     echo "No differences."
     return 0
   fi
-  local filename=$(echo -e "$files" | fzf --reverse --preview-window down,70% --preview 'git diff --no-prefix -U1000 '$1' -- {} | delta -w ${FZF_PREVIEW_COLUMNS:-$COLUMNS}')
+  local filename=$(echo -e "$files" | fzf --reverse --preview-window down,70% --height 30% \
+    --preview 'git diff --no-prefix -U1000 '$target_branch' -- {} | delta -w ${FZF_PREVIEW_COLUMNS:-$COLUMNS}' \
+    --bind 'enter:execute(less {})')
+    # --bind 'enter:execute(bash -c "git diff --no-prefix -U1000 '$target_branch' -- {} | delta")')
   if [[ -z $filename ]]; then
     echo "No item selected."
     return 0
   fi
-  git diff --no-prefix -U1000 $1 -- $filename | delta
+  git diff --no-prefix -U1000 $target_branch -- $filename | delta
 }
 
 _complete_gd() {

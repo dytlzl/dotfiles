@@ -88,6 +88,7 @@ highlight GitGutterChangeDelete ctermfg=blue
 colorscheme dracula
 
 " fzf.vim
+let g:fzf_colors = {'bg': ['bg', 'CursorLine', 'CursorColumn']}
 map <C-f> :Files<CR>
 map <C-r><C-g> :Rg<CR>
 map <C-g> :GFiles?<CR>
