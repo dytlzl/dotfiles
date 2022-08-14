@@ -7,7 +7,7 @@ export BAT_THEME="Dracula"
 bind -x '"\t": fzf_bash_completion'
 
 _fzf_ghq_list() {
-  local path=$(ghq list | fzf --reverse --preview 'batcat --color=always '$HOME'/ghq/{}/README.md')
+  local path=$(ghq list | fzf --reverse --height 30% --preview 'batcat --color=always '$HOME'/ghq/{}/README.md')
   if [[ -z $path ]]; then
     return 1
   fi
@@ -25,7 +25,7 @@ _fzf_find() {
   else
     list=$(find * -type f)
   fi
-  local path=$(echo "$list" | fzf --reverse --preview 'batcat --color=always {}')
+  local path=$(echo "$list" | fzf --reverse --height 30% --preview 'batcat --color=always {}')
   if [[ -z $path ]]; then
     return 0
   fi
@@ -62,8 +62,6 @@ __fzf_ripgrep() {
   [[ -n "$selected" ]] && echo ${list[0]}
   return $ret
 }
-
-bind -x '"\C-?\C-r\C-g": _fzf_rg'
 
 gd() {
   local target_branch=$1
