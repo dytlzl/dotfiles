@@ -114,7 +114,7 @@ alias mk='bash ./__ignore.mk.sh'
 alias vimk='vi ./__ignore.mk.sh'
 
 ktx() {
-  export KUBECONFIG=$(echo $HOME/.kube/config.d/* | fzf --reverse --height 30%)
+  export KUBECONFIG=$(ls -1 $HOME/.kube/config.d/* | fzf --reverse --height 30%)
 }
 
 alias k=kubectl
