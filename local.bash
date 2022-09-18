@@ -103,8 +103,20 @@ _parse_git_branch() {
   [[ -n $branch ]] && echo -e "on \033[38;5;200m$branch"
 }
 
+_kube_context() {
+  kubectl config current-context
+}
+
 PS1="\$(if [ \$? == 0 ]; then echo '\[\033[38;5;226m\] \[\033[38;5;196m\] \[\033[38;5;39m\] \[\033[38;5;118m\] '; else echo '\[\033[38;5;196m\]    '; fi)"
-PS1+='\[\033[38;5;141m\]\w\[\033[0m\] $(_parse_git_branch)\n\[\033[38;5;141m\]\$\[\033[0m\] '
+PS1+='\[\033[38;5;141m\]\w\[\033[0m\] $(_parse_git_branch) \[\033[38;5;39m\]$(_kube_context)\n\[\033[38;5;141m\]\$\[\033[0m\] '
 
 alias mk='bash ./__ignore.mk.sh'
 alias vimk='vi ./__ignore.mk.sh'
+
+ktx() {
+  export KUBECONFIG=$(echo $HOME/.kube/config.d/* | fzf --reverse --height 30%)
+}
+
+alias k=kubectl
+alias y2j="python3 -c 'import sys, yaml, json; json.dump(yaml.safe_load(sys.stdin), sys.stdout)'"
+. <(k completion bash)

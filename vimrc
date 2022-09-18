@@ -156,3 +156,11 @@ au FileType python setlocal sw=4 ts=4 sts=4 et
 au FileType make setlocal sw=4 ts=4 sts=4 noet
 
 map <C-@> :bo term ++rows=20<CR>
+
+" Persist undo
+if has('persistent_undo')
+  silent execute '!mkdir -p ~/.vim/undo'
+  set undodir=~/.vim/undo
+  set undofile
+endif
+
