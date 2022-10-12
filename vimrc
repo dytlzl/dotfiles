@@ -24,6 +24,7 @@ Jetpack 'vim-airline/vim-airline'
 Jetpack 'vim-airline/vim-airline-themes'
 Jetpack 'liuchengxu/space-vim-dark'
 Jetpack 'ryanoasis/vim-devicons'
+Jetpack 'iamcco/markdown-preview.nvim', { 'do': {-> mkdp#util#install()}, 'for': ['markdown', 'vim-plug'] }
 for name in jetpack#names()
   if !jetpack#tap(name)
     call jetpack#sync()
