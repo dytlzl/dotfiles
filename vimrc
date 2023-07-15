@@ -9,6 +9,7 @@ if empty(glob(data_dir . '/autoload/jetpack.vim'))
   autocmd VimEnter * JetpackSync | source $MYVIMRC
 endif
 call jetpack#begin()
+Jetpack 'tani/vim-jetpack'
 Jetpack 'junegunn/fzf.vim'
 Jetpack 'junegunn/fzf', { 'do': {-> fzf#install()} }
 Jetpack 'neoclide/coc.nvim', { 'branch': 'release' }
@@ -131,8 +132,9 @@ set expandtab
 
 " Enable mouse
 set mouse=a
-set ttymouse=xterm2
-
+if !has('nvim')
+  set ttymouse=xterm2
+endif
 set shiftwidth=2
 set tabstop=2
 set softtabstop=2
@@ -163,4 +165,3 @@ if has('persistent_undo')
   set undodir=~/.vim/undo
   set undofile
 endif
-
