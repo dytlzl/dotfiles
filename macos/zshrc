@@ -1,0 +1,135 @@
+export GOPATH=$HOME/go
+export GEM_HOME=$HOME/.gem
+
+# PATHs
+export PATH=\
+$GOPATH/bin:\
+/usr/local/opt/mysql-client/bin:\
+$HOME/.nodebrew/current/bin:\
+/opt/homebrew/bin:\
+$PATH
+
+
+# Aliases
+alias code='/Applications/Visual\ Studio\ Code.app/Contents/MacOS/Electron'
+alias k=kubectl
+
+alias vi=nvim
+alias vim=nvim
+
+export FZF_DEFAULT_OPTS='--layout=reverse'
+
+# zplug
+export ZPLUG_HOME=/opt/homebrew/opt/zplug
+source $ZPLUG_HOME/init.zsh
+
+zplug "zsh-users/zsh-completions"
+zplug "zsh-users/zsh-autosuggestions"
+
+# substring search
+source /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+zplug "zsh-users/zsh-history-substring-search"
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
+# set 2 for load after compinit
+export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=/opt/homebrew/share/zsh-syntax-highlighting/highlighters
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug load
+# load completion init
+autoload -U compinit
+compinit
+
+fpath=(~/.zsh/completion $fpath)
+
+autoload -U compinit
+compinit -u
+
+autoload -U colors
+colors
+zstyle ':completion:*' list-colors "${LS_COLORS}"
+
+setopt complete_in_word
+zstyle ':completion:*:default' menu select=1
+zstyle ':completion::complete:*' use-cache true
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+setopt list_packed
+
+# git
+autoload -Uz vcs_info
+setopt prompt_subst
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' stagedstr "%F{magenta}!"
+zstyle ':vcs_info:git:*' unstagedstr "%F{yellow}+"
+zstyle ':vcs_info:*' formats " %c%u%b"
+zstyle ':vcs_info:*' actionformats '%b|%a'
+precmd () { vcs_info }
+
+
+# PS1
+PS1='%F{green}%~%f%F{magenta}$vcs_info_msg_0_%f
+%(?.%{${fg[green]}%}.%{${fg[red]}%})$%f '
+
+
+_fzf_history() {
+  BUFFER="$(history -n 1 | tail -r  | awk '!a[$0]++' | fzf --reverse --height 30% --preview='echo {} | sed s/\\n/\n/g\ | bat' | sed 's/\\n/\n/g')"
+  CURSOR=$#BUFFER
+  zle reset-prompt
+}
+zle -N _fzf_history
+bindkey '^r' _fzf_history
+
+fzf-ripgrep() {
+  LBUFFER="${LBUFFER}$(__fzf_ripgrep)"
+  local ret=$?
+  zle reset-prompt
+  return $ret
+}
+
+__fzf_ripgrep() {
+  emulate -L zsh
+  rg_cmd="rg --smart-case --line-number --color=always --trim"
+  selected=$(FZF_DEFAULT_COMMAND=":" \
+      fzf --bind="change:top+reload($rg_cmd {q} || true)" \
+          --bind="ctrl-l:execute(tmux splitw -h -- nvim +/{q} {1} +{2})" \
+          --ansi --phony \
+          --delimiter=":" \
+          --preview="bat -H {2} --color=always --style=header,grid {1}" \
+          --reverse)
+
+  local ret=$?
+  [[ -n "$selected" ]] && nvim ${${(@s/:/)selected}[1]}
+  return $ret
+}
+
+zle -N fzf-ripgrep
+bindkey '^f' fzf-ripgrep
+
+gd() {
+  selected=$(git diff $1 --name-only 2>/dev/null | fzf --reverse --preview 'git diff '$1' -- {} | colordiff | bat')
+
+  local ret=$?
+  [[ -n "$selected" ]] && nvim $selected
+  return $ret
+}
+
+
+source ~/.zsh/plugins/fzf-tab/fzf-tab.plugin.zsh
+
+
+# move to repository
+if { which ghq &> /dev/null } then
+    function fzf-ghq () {
+        local selected_dir=$(ghq list --full-path | fzf --reverse --preview 'cat {}/README.md')
+        if [ -n "$selected_dir" ]; then
+            BUFFER="cd ${selected_dir}"
+            zle accept-line
+        fi
+        zle clear-screen
+    }
+
+    zle -N fzf-ghq
+    bindkey '^G' fzf-ghq
+fi
+
