@@ -48,6 +48,7 @@ let g:coc_global_extensions = [
   \'coc-markdownlint',
   \'coc-yaml'
 \]
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 nmap <silent> <space><space> :<C-u>CocList<cr>
 nmap <silent> <space>h :<C-u>call CocAction('doHover')<cr>
 nmap <silent> <space>d <Plug>(coc-definition)
